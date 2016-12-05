@@ -108,10 +108,10 @@ class SnakeGame(object):
         self.direction = event.keysym
         self.gameStarted = True
 
-    def timerFired(self, canvas):
+    def timerFired(self):
         """controls tick time of the game
         1) Keeps moving the snake in the given direction at the given delay intervals"""
-        delay = 3  # milliseconds tick time
+        delay = 150  # milliseconds tick time
         # change the delay variable to adjust game speed
         if self.gameStarted and not self.gameOver:
 
