@@ -15,10 +15,13 @@ class SnakeLogic(object):
 
         self.foodPosition = {}  # store the row,col location of the food
         self.obstaclePosition = {}
+
+        self.loadSnakeBoard(self.boardSize)
     def getBoard(self):
         return self.snakeBoard
 
-    def moveInDirection(self):
+    def makeMove(self,direction):
+        self.direction = direction
         if self.direction == "Left":
             self.moveSnake(0, -1)
         elif self.direction == "Right":
@@ -101,4 +104,24 @@ class SnakeLogic(object):
         self.foodPosition['row'] = row
         self.foodPosition['col'] = col
         self.calculateManhattanBoard()
+
+    def calculateManhattanBoard(self):
+        foodRow = self.foodPosition['row']
+        foodCol = self.foodPosition['col']
+        self.manhattanBoard = [[0 for x in range(self.boardSize)] for x in range(self.boardSize)]
+        for row in range(self.boardSize):
+            for col in range(self.boardSize):
+                manDistance = abs(foodRow-row) + abs(foodCol-col)
+                self.manhattanBoard[row][col] = manDistance
+
+    def makeObstacle(self):
+        width = self.boardSize
+        row = random.choice(range(width))
+        col = random.choice(range(width))
+        # if we are at a location where snake already exists, keep looking for random blank space
+        while self.snakeBoard[row][col] != 0:
+            row = random.choice(range(width))
+            col = random.choice(range(width))
+
+        self.snakeBoard[row][col] == -2
 

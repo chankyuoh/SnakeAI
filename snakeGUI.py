@@ -8,8 +8,8 @@ class SnakeGUI(object):
         self.canvas = Canvas(self.root, width=(self.boardSize*31), height=(self.boardSize*31))
         self.canvas.pack()
         self.root.canvas = self.canvas.canvas = self.canvas
-        self.newGame = Button(self.root, command=self.redrawAll(), text='newGame').pack()
-        self.CPUGame = Button(self.root, command=self.redrawAll(), text='CPUGame').pack()
+        self.newGame = Button(self.root, text='newGame').pack()
+        self.CPUGame = Button(self.root, text='CPUGame').pack()
         self.root.bind("<Key>", self.keyPressed)  # binds keyEvent to the function keyPressed()
 
     def updateBoard(self,board):
@@ -87,4 +87,7 @@ class SnakeGUI(object):
         2) game starts from the moment key is pressed also"""
         self.direction = event.keysym
         self.gameStarted = True
+
+    def getDirection(self):
+        return self.direction
 

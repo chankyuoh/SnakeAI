@@ -8,8 +8,16 @@ class SnakeGame(object):
         self.board = []
     def tick(self):
         #self.logic.moveInDirection()
+        self.updateGUIBoard()
+        direction = self.GUI.getDirection()
+        self.logic.makeMove(direction)
+        self.updateGUIBoard()
+        self.GUI.timerFired()
+        self.GUI.root.mainloop()
         return
-    def updateBoard(self):
+    def updateGUIBoard(self):
         self.board = self.logic.getBoard()
-        self.GUI.update(self.board)
+        self.GUI.updateBoard(self.board)
 game = SnakeGame()
+game.updateGUIBoard()
+game.tick()
