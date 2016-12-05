@@ -15,7 +15,9 @@ import queue
 # TODO: Add outline of A star path
 
 
-class Node:
+class Node(object):
+    """A node representing a single part of the snake."""
+
     def __init__(self,row,col):
         self.row = row
         self.col = col
@@ -27,7 +29,7 @@ class Node:
 
 class SnakeGame:
     def __init__(self):
-
+        # IS RCS WORKING?
         # Initialize Data Members
         self.nodeBoard = []
         self.boardSize = 10  # customize size for bigger/smaller board!
