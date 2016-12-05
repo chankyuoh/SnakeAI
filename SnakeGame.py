@@ -6,18 +6,20 @@ class SnakeGame(object):
         self.GUI = SnakeGUI()
         self.logic = SnakeLogic()
         self.board = []
-    def tick(self):
+    def timerFired(self):
         #self.logic.moveInDirection()
-        self.updateGUIBoard()
         direction = self.GUI.getDirection()
-        self.logic.makeMove(direction)
-        self.updateGUIBoard()
-        self.GUI.timerFired()
-        self.GUI.root.mainloop()
+        if direction != "":
+            self.logic.makeMove(direction)
+            self.updateGUIBoard()
+            # self.GUI.timerFired()
+            delay = 150  # milliseconds tick time
+            self.GUI.canvas.after(delay, self.timerFired(), self.canvas)
         return
     def updateGUIBoard(self):
         self.board = self.logic.getBoard()
         self.GUI.updateBoard(self.board)
 game = SnakeGame()
 game.updateGUIBoard()
-game.tick()
+game.timerFired()
+game.GUI.root.mainloop()
