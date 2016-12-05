@@ -15,6 +15,18 @@ class SnakeLogic(object):
 
         self.foodPosition = {}  # store the row,col location of the food
         self.obstaclePosition = {}
+    def getBoard(self):
+        return self.snakeBoard
+
+    def moveInDirection(self):
+        if self.direction == "Left":
+            self.moveSnake(0, -1)
+        elif self.direction == "Right":
+            self.moveSnake(0, 1)
+        elif self.direction == "Up":
+            self.moveSnake(-1, 0)
+        elif self.direction == "Down":
+            self.moveSnake(1, 0)
 
     def loadSnakeBoard(self, size):
         """initializes the snakeBoard 2d List, and starts the snake in the middle of the board

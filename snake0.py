@@ -68,7 +68,7 @@ class SnakeGame(object):
 
     def run(self):
         """Runs the animation of the game (ticks)"""
-        self.timerFired(self.canvas)
+        self.timerFired()
         self.root.mainloop()
 
     def init(self):

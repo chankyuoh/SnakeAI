@@ -1,21 +1,47 @@
 from tkinter import *
-
+from SnakeLogic import SnakeLogic
 class SnakeGUI(object):
     def __init__(self):
-        self.root = Tk()
         self.boardSize = 10
-    def initGUI(self):
-        self.initializeCanvas()
-        self.initializeButtons()
-
-    def initializeCanvas(self):
+        self.snakeBoard = []
+        self.root = Tk()
         self.canvas = Canvas(self.root, width=(self.boardSize*31), height=(self.boardSize*31))
         self.canvas.pack()
         self.root.canvas = self.canvas.canvas = self.canvas
-    def initializeButtons(self):
-        self.newGame = Button(self.root, command=self.initGUI, text='newGame').pack()
-        self.CPUGame = Button(self.root, command=self.initGUI, text='CPUGame').pack()
-        self.root.bind("<Key>", self.keyPressed)  # binds keyEvent to the function keyPressed
+        self.newGame = Button(self.root, command=self.redrawAll(), text='newGame').pack()
+        self.CPUGame = Button(self.root, command=self.redrawAll(), text='CPUGame').pack()
+        self.root.bind("<Key>", self.keyPressed)  # binds keyEvent to the function keyPressed()
+
+    def updateBoard(self,board):
+        self.snakeBoard = board
+        self.drawSnakeBoard()
+
+    def timerFired(self):
+        """controls tick time of the game
+        1) Keeps moving the snake in the given direction at the given delay intervals"""
+        delay = 150  # milliseconds tick time
+        # change the delay variable to adjust game speed
+
+        if self.gameStarted and not self.gameOver:
+
+            if self.computerPlay == True:
+                self.calculateAstar()
+                self.setDirection()
+                self.redrawAll()
+            else:
+                if self.direction == "Left":
+                    self.moveSnake(0, -1)
+                elif self.direction == "Right":
+                    self.moveSnake(0, 1)
+                elif self.direction == "Up":
+                    self.moveSnake(-1, 0)
+                elif self.direction == "Down":
+                    self.moveSnake(1, 0)
+                self.redrawAll()
+
+        # pause for a bit, and then call timerFired again
+        self.canvas.after(delay, self.timerFired, self.canvas)
+
 
     def drawSnakeBoard(self):
         """Take the 2D list board, and visualizes it into the GUI"""
@@ -48,8 +74,17 @@ class SnakeGUI(object):
         """Deletes the current snakeBoard, and redraws a new snakeBoard with changed values
            1) if game is over, then draws the gameOverScreen overlay"""
         self.canvas.delete(ALL)
-        if self.gameOver:
-            self.drawSnakeBoard()
-            self.gameOverScreen()
-        else:
-            self.drawSnakeBoard()
+        self.drawSnakeBoard()
+#        if self.gameOver:
+#            self.drawSnakeBoard()
+#            self.gameOverScreen()
+#        else:
+#            self.drawSnakeBoard()
+
+    def keyPressed(self, event):
+        """Input: Keyboard event
+        1) Sets the direction data member given corresponding arrow-key event
+        2) game starts from the moment key is pressed also"""
+        self.direction = event.keysym
+        self.gameStarted = True
+
