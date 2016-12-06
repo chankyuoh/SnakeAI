@@ -95,6 +95,8 @@ class SnakeLogic(object):
             for col in range(self.boardSize):
                 if self.snakeBoard[row][col] > 0:
                     self.snakeBoard[row][col] -= 1
+    def getScore(self):
+        return self.score
 
     def moveSnake(self, rowDiff, colDiff):
         """Input:
@@ -108,7 +110,7 @@ class SnakeLogic(object):
             headRank = self.snakeLength()
             if self.isGameOver(newHeadRow, newHeadCol):
                 self.gameOver = True
-                self.gameOverScreen()
+                #self.gameOverScreen()
                 return
             if self.snakeBoard[newHeadRow][newHeadCol] == -1:
                 self.snakeBoard[newHeadRow][newHeadCol] = headRank + 1
@@ -119,6 +121,7 @@ class SnakeLogic(object):
                 self.removeTail()
                 self.gameOver = self.isGameOver(newHeadRow, newHeadCol)
                 self.snakeBoard[newHeadRow][newHeadCol] = headRank
+
 
     def makeFood(self):
         """Creates a food object in the GUI at a position that is empty currently"""

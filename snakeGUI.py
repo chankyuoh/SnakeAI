@@ -25,12 +25,19 @@ class SnakeGUI(object):
         #else:
         #    self.drawSnakeBoard()
 
+    def gameOverScreen(self,score):
+        """Outputs the Game Over screen in the GUI"""
+        #self.canvas.delete(ALL)
+        canvas_id = self.canvas.create_text(100, 50, anchor="nw")
+        endText = "Game Over!\nYour score is:"+str(score)
+        self.canvas.itemconfig(canvas_id, text=endText, fill='red')
+
 
     def timerFired(self,logic):
         """delays the game by the tick time amount"""
         delay = 150  # milliseconds tick time
         # change the delay variable to adjust game speed
-        if self.gameStarted:
+        if self.gameStarted and not logic.gameOver:
             #if self.computerPlay == True:
             #    self.calculateAstar()
             #    self.setDirection()
@@ -38,9 +45,13 @@ class SnakeGUI(object):
             print self.board
             logic.makeMove(self.direction)
             self.updateBoard(logic.getBoard())
-            print "UPDATE"
             print self.board
             self.redrawAll()
+        elif logic.gameOver:
+            self.gameOverScreen(logic.getScore())
+        else:
+            self.redrawAll()
+
 
         # pause for a bit, and then call timerFired again
         self.canvas.after(delay, self.timerFired, logic)
