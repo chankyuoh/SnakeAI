@@ -8,11 +8,25 @@ class SnakeGUI(object):
         self.canvas = Canvas(self.root, width=(self.boardSize*31), height=(self.boardSize*31))
         self.canvas.pack()
         self.direction = ""
+        self.gameOver = False
         self.root.canvas = self.canvas.canvas = self.canvas
-        self.newGame = Button(self.root, text='newGame').pack()
+        self.newGame = Button(self.root, command=self.init, text='newGame').pack()
         self.CPUGame = Button(self.root, text='CPUGame').pack()
         self.root.bind("<Key>", self.keyPressed)  # binds keyEvent to the function keyPressed()
         self.gameStarted = False
+        self.isNewGameClicked = False
+        self.printInstructions()
+
+
+    def init(self):
+        self.isNewGameClicked = True
+    def newGame(self):
+        self.gameOver = False
+        self.gameStarted = False
+        self.computerPlay = False
+        self.printInstructions()
+        self.score = 0
+        self.redrawAll()
 
     def updateBoard(self,board):
 
@@ -37,17 +51,22 @@ class SnakeGUI(object):
         """delays the game by the tick time amount"""
         delay = 150  # milliseconds tick time
         # change the delay variable to adjust game speed
+        if self.isNewGameClicked:
+            self.isNewGameClicked = False
+            logic.gameOver = False
+            logic.loadSnakeBoard(10)
+            self.updateBoard(logic.getBoard())
+            self.gameStarted = False
         if self.gameStarted and not logic.gameOver:
             #if self.computerPlay == True:
             #    self.calculateAstar()
             #    self.setDirection()
             #    self.redrawAll()
-            print self.board
             logic.makeMove(self.direction)
             self.updateBoard(logic.getBoard())
-            print self.board
             self.redrawAll()
         elif logic.gameOver:
+            self.gameOver = True
             self.gameOverScreen(logic.getScore())
         else:
             self.redrawAll()
@@ -106,4 +125,12 @@ class SnakeGUI(object):
 
     def getDirection(self):
         return self.direction
+
+    def printInstructions(self):
+        """print the instructions of the game in the Console"""
+        print("Welcome to Snake Game!")
+        print("Use the Arrow keys to move!")
+        print("Press New Game to Restart your game!")
+        print("Press CPUGame and then press any arrow key to watch the A* Algorithm Snake Player!")
+        return
 

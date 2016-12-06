@@ -11,6 +11,10 @@ class SnakeGame(object):
     def updateGUIBoard(self):
         self.board = self.logic.getBoard()
         self.GUI.updateBoard(self.board)
+    def makeNewGame(self):
+        self.logic.loadSnakeBoard(10)
+    def isGameOver(self):
+        return self.logic.gameOver
 game = SnakeGame()
 game.updateGUIBoard()
 game.tick()

@@ -110,6 +110,7 @@ class SnakeLogic(object):
             headRank = self.snakeLength()
             if self.isGameOver(newHeadRow, newHeadCol):
                 self.gameOver = True
+
                 #self.gameOverScreen()
                 return
             if self.snakeBoard[newHeadRow][newHeadCol] == -1:
