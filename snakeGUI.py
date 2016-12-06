@@ -11,15 +11,18 @@ class SnakeGUI(object):
         self.gameOver = False
         self.root.canvas = self.canvas.canvas = self.canvas
         self.newGame = Button(self.root, command=self.init, text='newGame').pack()
-        self.CPUGame = Button(self.root, text='CPUGame').pack()
+        self.CPUGame = Button(self.root, command=self.initCPU, text='CPUGame').pack()
         self.root.bind("<Key>", self.keyPressed)  # binds keyEvent to the function keyPressed()
         self.gameStarted = False
+        self.isCPUGameClicked = False
         self.isNewGameClicked = False
         self.printInstructions()
-
+        self.computerPlay = False
 
     def init(self):
         self.isNewGameClicked = True
+    def initCPU(self):
+        self.isCPUGameClicked = True
     def newGame(self):
         self.gameOver = False
         self.gameStarted = False
@@ -53,18 +56,29 @@ class SnakeGUI(object):
         # change the delay variable to adjust game speed
         if self.isNewGameClicked:
             self.isNewGameClicked = False
+            self.computerPlay = False
             logic.gameOver = False
             logic.loadSnakeBoard(10)
             self.updateBoard(logic.getBoard())
             self.gameStarted = False
-        if self.gameStarted and not logic.gameOver:
-            #if self.computerPlay == True:
-            #    self.calculateAstar()
-            #    self.setDirection()
-            #    self.redrawAll()
-            logic.makeMove(self.direction)
+
+        if self.isCPUGameClicked:
+            self.isCPUGameClicked = False
+            logic.gameOver = False
+            logic.loadSnakeBoard(10)
+            self.gameStarted = False
             self.updateBoard(logic.getBoard())
-            self.redrawAll()
+            self.computerPlay = True
+        if self.gameStarted and not logic.gameOver:
+            if self.computerPlay:
+                logic.calculateAstar()
+                logic.setDirection()
+                self.updateBoard(logic.getBoard())
+                self.redrawAll()
+            else:
+                logic.makeMove(self.direction)
+                self.updateBoard(logic.getBoard())
+                self.redrawAll()
         elif logic.gameOver:
             self.gameOver = True
             self.gameOverScreen(logic.getScore())

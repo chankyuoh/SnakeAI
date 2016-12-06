@@ -1,11 +1,19 @@
 import random
 
+class Node:
+    def __init__(self,row,col):
+        self.row = row
+        self.col = col
+        self.fVal = 0
+        self.hVal = 0
+        self.gVal = 0
+        self.parent = None
+
 class SnakeLogic(object):
     def __init__(self):
         self.gameOver = False
         self.score = 0
         self.gameStarted = False
-
 
         self.boardSize = 10  # customize size for bigger/smaller board!
         self.snakeBoard = []  # 2D List representing the game board
@@ -123,7 +131,6 @@ class SnakeLogic(object):
                 self.gameOver = self.isGameOver(newHeadRow, newHeadCol)
                 self.snakeBoard[newHeadRow][newHeadCol] = headRank
 
-
     def makeFood(self):
         """Creates a food object in the GUI at a position that is empty currently"""
         width = self.boardSize
@@ -139,15 +146,6 @@ class SnakeLogic(object):
         self.foodPosition['col'] = col
         self.calculateManhattanBoard()
 
-    def calculateManhattanBoard(self):
-        foodRow = self.foodPosition['row']
-        foodCol = self.foodPosition['col']
-        self.manhattanBoard = [[0 for x in range(self.boardSize)] for x in range(self.boardSize)]
-        for row in range(self.boardSize):
-            for col in range(self.boardSize):
-                manDistance = abs(foodRow-row) + abs(foodCol-col)
-                self.manhattanBoard[row][col] = manDistance
-
     def makeObstacle(self):
         width = self.boardSize
         row = random.choice(range(width))
@@ -158,4 +156,152 @@ class SnakeLogic(object):
             col = random.choice(range(width))
 
         self.snakeBoard[row][col] == -2
+
+    # A star Algorithm
+    def calculateManhattanBoard(self):
+        foodRow = self.foodPosition['row']
+        foodCol = self.foodPosition['col']
+        self.manhattanBoard = [[0 for x in range(self.boardSize)] for x in range(self.boardSize)]
+        for row in range(self.boardSize):
+            for col in range(self.boardSize):
+                manDistance = abs(foodRow - row) + abs(foodCol - col)
+                self.manhattanBoard[row][col] = manDistance
+
+    def heuristic(self, node):
+        """calculates manhattan distance from the node to the food"""
+        inf = float('inf')
+        for snakePart in self.snakeSegments:
+            snakeRow = snakePart['row']
+            snakeCol = snakePart['col']
+            if node.row == snakeRow and node.col == snakeCol:
+                return inf
+        headRow = self.snakeHead['row']
+        headCol = self.snakeHead['col']
+        if node.row == headRow and node.col == headCol:
+            return inf
+
+        headNode = Node(self.snakeHead['row'], self.snakeHead['col'])
+        headNode.hval = inf
+        self.nodeBoard[self.snakeHead['row']][self.snakeHead['col']] = headNode
+        return abs(node.row - self.foodPosition['row']) + abs(node.col - self.foodPosition['col'])
+
+    def setNodeBoard(self):
+        self.nodeBoard = [[0 for x in range(self.boardSize)] for x in range(self.boardSize)]
+        for row in range(self.boardSize):
+            for col in range(self.boardSize):
+                self.nodeBoard[row][col] = Node(row, col)
+
+    def neighborNodes(self, node):
+        surroundNodes = []
+        if node.row - 1 >= 0:
+            top = self.nodeBoard[node.row - 1][node.col]
+            surroundNodes.append(top)
+
+        if node.col - 1 >= 0:
+            left = self.nodeBoard[node.row][node.col - 1]
+            surroundNodes.append(left)
+
+        if node.col + 1 < self.boardSize:
+            right = self.nodeBoard[node.row][node.col + 1]
+            surroundNodes.append(right)
+
+        if node.row + 1 < self.boardSize:
+            bot = self.nodeBoard[node.row + 1][node.col]
+            surroundNodes.append(bot)
+
+        return surroundNodes
+
+    def findMinNode(self, nodes):
+        """Finds the node with the lowest fVal"""
+        minNode = nodes[0]
+        for node in nodes:
+            if node.fVal < minNode.fVal:
+                minNode = node
+        return minNode
+
+    def printPathList(self, end):
+        while end.parent != None:
+            self.pathList.append([end.row, end.col])
+            end = end.parent
+        self.pathList.reverse()
+
+    # gVal = cost it took to get to the node
+    # hVal = heuristical guess at how much it'll cost from this node to the goal
+    # fVal = gVal + hVal
+    def calculateAstar(self):
+        self.pathList = []
+        self.setPositions()
+        self.setNodeBoard()
+        openList = []
+        closedList = []
+        goal = Node(self.foodPosition['row'], self.foodPosition['col'])
+        beginNode = self.nodeBoard[self.snakeHead['row']][self.snakeHead['col']]
+        beginNode.gVal = 0
+        beginNode.hVal = self.manhattanBoard[beginNode.row][beginNode.col]
+        beginNode.fVal = beginNode.gVal + beginNode.hVal
+        self.nodeBoard[beginNode.row][beginNode.col] = beginNode
+        openList.append(beginNode)
+        while len(openList) > 0:  # while openList is not empty
+            current = self.findMinNode(openList)  # node in openList with lowest fVal
+            #  if current == goal
+            if current.row == goal.row and current.col == goal.col:
+                self.printPathList(current)
+                print (self.pathList)
+                return self.pathList
+            openList.remove(current)
+            closedList.append(current)
+            neighborsList = self.neighborNodes(current)
+
+            for neighbor in neighborsList:  # for each neighbor of current
+                if neighbor in closedList:
+                    continue
+                if neighbor not in openList:
+                    neighbor.gVal = current.gVal + 1
+                    neighbor.hVal = self.heuristic(neighbor)
+                    neighbor.fVal = neighbor.gVal + neighbor.hVal
+                    neighbor.parent = current
+                    self.nodeBoard[neighbor.row][neighbor.col] = neighbor
+                    openList.append(neighbor)
+                else:
+                    newGval = current.gVal + 1
+                    if newGval < neighbor.gVal:
+                        neighbor.gVal = newGval
+                        neighbor.parent = current
+                        self.nodeBoard[neighbor.row][neighbor.col] = neighbor
+
+    def setDirection(self):
+        nextLocation = self.pathList[0]
+        nextRow = nextLocation[0]
+        nextCol = nextLocation[1]
+        if self.snakeBoard[nextRow][nextCol] > 0:
+            stallSuccessful = self.stall()
+            return
+        if abs(nextRow - self.snakeHead['row']) == 0 and (nextCol - self.snakeHead['col']) == -1:  # left
+            self.moveSnake(0, -1)
+        elif abs(nextRow - self.snakeHead['row']) == 0 and (nextCol - self.snakeHead['col']) == 1:  # right
+            self.moveSnake(0, 1)
+        elif (nextRow - self.snakeHead['row']) == -1 and abs(nextCol - self.snakeHead['col']) == 0:  # up
+            self.moveSnake(-1, 0)
+        elif (nextRow - self.snakeHead['row']) == 1 and abs(nextCol - self.snakeHead['col']) == 0:  # down
+            self.moveSnake(1, 0)
+
+    def stall(self):
+        if self.snakeHead['col'] - 1 >= 0 and self.snakeBoard[self.snakeHead['row']][
+                    self.snakeHead['col'] - 1] <= 0:  # left
+            self.moveSnake(0, -1)
+        elif self.snakeHead['col'] + 1 < self.boardSize and self.snakeBoard[self.snakeHead['row']][
+                    self.snakeHead['col'] + 1] <= 0:  # right
+            self.moveSnake(0, 1)
+        elif self.snakeHead['row'] - 1 >= 0 and self.snakeBoard[self.snakeHead['row'] - 1][
+            self.snakeHead['col']] <= 0:  # up
+            self.moveSnake(-1, 0)
+
+        elif self.snakeHead['row'] + 1 < self.boardSize and self.snakeBoard[self.snakeHead['row'] + 1][
+            self.snakeHead['col']] <= 0:  # down
+            self.moveSnake(1, 0)
+        else:
+            print("stall has failed")
+            self.gameOver = True
+            return True
+
 

@@ -5,17 +5,17 @@ class SnakeGame(object):
     def __init__(self):
         self.GUI = SnakeGUI()
         self.logic = SnakeLogic()
-        self.board = []
-    def tick(self):
+    def run(self):
+        """starts the game by starting TkInter's timerFired method"""
         self.GUI.timerFired(self.logic)
-    def updateGUIBoard(self):
-        self.board = self.logic.getBoard()
-        self.GUI.updateBoard(self.board)
+    def updateGUI(self):
+        """Updates the Board array in the GUI class to match the Logic class' board"""
+        self.GUI.updateBoard(self.logic.getBoard())
     def makeNewGame(self):
         self.logic.loadSnakeBoard(10)
     def isGameOver(self):
         return self.logic.gameOver
 game = SnakeGame()
-game.updateGUIBoard()
-game.tick()
+game.updateGUI()
+game.run()
 game.GUI.root.mainloop()
