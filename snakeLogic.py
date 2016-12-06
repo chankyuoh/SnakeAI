@@ -6,6 +6,7 @@ class SnakeLogic(object):
         self.score = 0
         self.gameStarted = False
 
+
         self.boardSize = 10  # customize size for bigger/smaller board!
         self.snakeBoard = []  # 2D List representing the game board
 
@@ -17,8 +18,37 @@ class SnakeLogic(object):
         self.obstaclePosition = {}
 
         self.loadSnakeBoard(self.boardSize)
+
+    def isGameRunning(self):
+        return self.gameStarted and not self.gameOver
+    def isCPUplay(self):
+        return self.comp
     def getBoard(self):
         return self.snakeBoard
+    def snakeLength(self):
+        """Returns the current length of the snake"""
+        highestVal = 0
+        for row in range(self.boardSize):
+            for col in range(self.boardSize):
+                highestVal = max(highestVal,self.snakeBoard[row][col])
+        return highestVal
+
+    def isGameOver(self,headRow,headCol):
+        """Output: Boolean
+           Checks to see if the game is over
+           1) Snake ran into a wall
+           2) Snake ran into its own body segments"""
+        if headRow < 0 or headRow > self.boardSize-1:
+            self.gameOver = True
+            return True
+        if headCol < 0 or headCol > self.boardSize-1:
+            self.gameOver = True
+            return True
+        self.setPositions()
+        for segment in self.snakeSegments:
+            if segment['row'] == headRow and segment['col'] == headCol:
+                return True
+        return False
 
     def makeMove(self,direction):
         self.direction = direction

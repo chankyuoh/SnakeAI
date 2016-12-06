@@ -3,7 +3,7 @@ from SnakeLogic import SnakeLogic
 class SnakeGUI(object):
     def __init__(self):
         self.boardSize = 10
-        self.snakeBoard = []
+        self.board = []
         self.root = Tk()
         self.canvas = Canvas(self.root, width=(self.boardSize*31), height=(self.boardSize*31))
         self.canvas.pack()
@@ -12,11 +12,12 @@ class SnakeGUI(object):
         self.newGame = Button(self.root, text='newGame').pack()
         self.CPUGame = Button(self.root, text='CPUGame').pack()
         self.root.bind("<Key>", self.keyPressed)  # binds keyEvent to the function keyPressed()
+        self.gameStarted = False
 
     def updateBoard(self,board):
 
         self.canvas.delete(ALL)
-        self.snakeBoard = board
+        self.board = board
         self.drawSnakeBoard()
         #if self.gameOver:
         #    self.drawSnakeBoard()
@@ -24,10 +25,25 @@ class SnakeGUI(object):
         #else:
         #    self.drawSnakeBoard()
 
-    def timerFired(self):
+
+    def timerFired(self,logic):
         """delays the game by the tick time amount"""
         delay = 150  # milliseconds tick time
-        self.canvas.after(delay, self.timerFired(), self.canvas)
+        # change the delay variable to adjust game speed
+        if self.gameStarted:
+            #if self.computerPlay == True:
+            #    self.calculateAstar()
+            #    self.setDirection()
+            #    self.redrawAll()
+            print self.board
+            logic.makeMove(self.direction)
+            self.updateBoard(logic.getBoard())
+            print "UPDATE"
+            print self.board
+            self.redrawAll()
+
+        # pause for a bit, and then call timerFired again
+        self.canvas.after(delay, self.timerFired, logic)
 
 
     def drawSnakeBoard(self):
@@ -47,13 +63,14 @@ class SnakeGUI(object):
         right = left + cellSize
         top = margin + row * cellSize
         bottom = top + cellSize
-        self.canvas.create_rectangle(left, top, right, bottom, fill="white")
-        if (self.snakeBoard[row][col] > 0):
+        board = self.board
+        self.canvas.create_rectangle(left, top, right, bottom, fill="black")
+        if (board[row][col] > 0):
             # draw part of the snake body
-            self.canvas.create_oval(left, top, right, bottom, fill="blue")
-        elif self.snakeBoard[row][col] == -1:
+            self.canvas.create_oval(left, top, right, bottom, fill="green")
+        elif board[row][col] == -1:
             self.canvas.create_oval(left, top, right, bottom, fill="yellow")
-        elif self.snakeBoard[row][col] == -2:
+        elif board[row][col] == -2:
             self.canvas.create_oval(left, top, right, bottom, fill="red")
         return
 
@@ -73,6 +90,7 @@ class SnakeGUI(object):
         1) Sets the direction data member given corresponding arrow-key event
         2) game starts from the moment key is pressed also"""
         self.direction = event.keysym
+        print "KEY PRESSED " + self.direction
         self.gameStarted = True
 
     def getDirection(self):
