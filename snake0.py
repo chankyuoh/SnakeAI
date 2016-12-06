@@ -15,9 +15,7 @@ import queue
 # TODO: Add outline of A star path
 
 
-class Node(object):
-    """A node representing a single part of the snake."""
-
+class Node:
     def __init__(self,row,col):
         self.row = row
         self.col = col
@@ -27,34 +25,28 @@ class Node(object):
         self.parent = None
 
 
-class SnakeGame(object):
+class SnakeGame:
     def __init__(self):
+
         # Initialize Data Members
         self.nodeBoard = []
         self.boardSize = 10  # customize size for bigger/smaller board!
         self.snakeBoard = []  # 2D List representing the game board
-
-        # Snake class
         self.snakeHead = {}  # store the row, and col location of the snake's head
         self.snakeSegments = []  # store row,col location of the snake segments except the head
         self.direction = ""
-
-        # Game Logic class
         self.gameOver = False
         self.score = 0
         self.gameStarted = False
-
-        # Food class
         self.foodPosition = {}  # store the row,col location of the food
         self.obstaclePosition = {}
 
-        # AI Player Class
+        # A Star Algorithm related Data Members
         self.manhattanBoard = []
         self.pathList = []
         self.computerPlay = False
 
         # Initialize root, the canvas, and the buttons for the GUI
-        # GUI Class
         self.root = Tk()
         self.canvas = Canvas(self.root, width=(self.boardSize*31), height=(self.boardSize*31))
         self.canvas.pack()
@@ -68,7 +60,7 @@ class SnakeGame(object):
 
     def run(self):
         """Runs the animation of the game (ticks)"""
-        self.timerFired()
+        self.timerFired(self.canvas)
         self.root.mainloop()
 
     def init(self):
@@ -108,7 +100,7 @@ class SnakeGame(object):
         self.direction = event.keysym
         self.gameStarted = True
 
-    def timerFired(self):
+    def timerFired(self, canvas):
         """controls tick time of the game
         1) Keeps moving the snake in the given direction at the given delay intervals"""
         delay = 150  # milliseconds tick time
