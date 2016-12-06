@@ -134,7 +134,6 @@ class SnakeGUI(object):
         1) Sets the direction data member given corresponding arrow-key event
         2) game starts from the moment key is pressed also"""
         self.direction = event.keysym
-        print "KEY PRESSED " + self.direction
         self.gameStarted = True
 
     def getDirection(self):

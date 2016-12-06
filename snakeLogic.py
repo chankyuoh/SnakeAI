@@ -246,7 +246,6 @@ class SnakeLogic(object):
             #  if current == goal
             if current.row == goal.row and current.col == goal.col:
                 self.printPathList(current)
-                print (self.pathList)
                 return self.pathList
             openList.remove(current)
             closedList.append(current)

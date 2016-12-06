@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d52207aa-cde1-4825-87ae-ea79553c1975" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SnakeGame.py" afterPath="$PROJECT_DIR$/SnakeGame.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/snakeGUI.py" afterPath="$PROJECT_DIR$/snakeGUI.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/snakeLogic.py" afterPath="$PROJECT_DIR$/snakeLogic.py" />
     </list>
     <ignored path="snakeGameAI.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SnakeGUI.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SnakeGUI.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SnakeGUI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="58" column="37" selection-start-line="58" selection-start-column="37" selection-end-line="58" selection-end-column="37" />
+            <state relative-caret-position="-823">
+              <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -46,11 +47,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SnakeGame.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SnakeGame.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SnakeGame.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
+            <state relative-caret-position="225">
+              <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -61,8 +62,8 @@
       <file leaf-file-name="SnakeLogic.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SnakeLogic.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2714">
-              <caret line="83" column="8" selection-start-line="83" selection-start-column="8" selection-end-line="83" selection-end-column="8" />
+            <state relative-caret-position="242">
+              <caret line="247" column="43" selection-start-line="247" selection-start-column="43" selection-end-line="247" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -72,7 +73,7 @@
         <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-tk/Tkinter.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="130">
-              <caret line="586" column="0" selection-start-line="586" selection-start-column="0" selection-end-line="586" selection-end-column="0" />
+              <caret line="1535" column="0" selection-start-line="1535" selection-start-column="0" selection-end-line="1535" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -118,9 +119,9 @@
         <option value="$PROJECT_DIR$/Snake.py" />
         <option value="$PROJECT_DIR$/Node.py" />
         <option value="$PROJECT_DIR$/snake0.py" />
-        <option value="$PROJECT_DIR$/SnakeLogic.py" />
         <option value="$PROJECT_DIR$/SnakeGame.py" />
         <option value="$PROJECT_DIR$/SnakeGUI.py" />
+        <option value="$PROJECT_DIR$/SnakeLogic.py" />
       </list>
     </option>
   </component>
@@ -643,22 +644,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-tk/Tkinter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="586" column="0" selection-start-line="586" selection-start-column="0" selection-end-line="586" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SnakeLogic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2714">
-          <caret line="83" column="8" selection-start-line="83" selection-start-column="8" selection-end-line="83" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/snake0.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="130">
@@ -667,22 +652,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SnakeGUI.py">
+    <entry file="file:///System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/lib-tk/Tkinter.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="58" column="37" selection-start-line="58" selection-start-column="37" selection-end-line="58" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#21#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="130">
+          <caret line="1535" column="0" selection-start-line="1535" selection-start-column="0" selection-end-line="1535" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SnakeGame.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
+        <state relative-caret-position="225">
+          <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SnakeLogic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="247" column="43" selection-start-line="247" selection-start-column="43" selection-end-line="247" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SnakeGUI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-823">
+          <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
           </folding>
         </state>
       </provider>
