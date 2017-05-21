@@ -23,6 +23,7 @@ class SnakeGUI(object):
         self.isNewGameClicked = True
     def initCPU(self):
         self.isCPUGameClicked = True
+
     def newGame(self):
         self.gameOver = False
         self.gameStarted = False
@@ -52,7 +53,7 @@ class SnakeGUI(object):
 
     def timerFired(self,logic):
         """delays the game by the tick time amount"""
-        delay = 150  # milliseconds tick time
+        delay = 30  # milliseconds tick time
         # change the delay variable to adjust game speed
         if self.isNewGameClicked:
             self.isNewGameClicked = False
@@ -61,6 +62,7 @@ class SnakeGUI(object):
             logic.loadSnakeBoard(10)
             self.updateBoard(logic.getBoard())
             self.gameStarted = False
+            logic.score = 0
 
         if self.isCPUGameClicked:
             self.isCPUGameClicked = False
@@ -69,6 +71,7 @@ class SnakeGUI(object):
             self.gameStarted = False
             self.updateBoard(logic.getBoard())
             self.computerPlay = True
+            logic.score = 0
         if self.gameStarted and not logic.gameOver:
             if self.computerPlay:
                 logic.calculateAstar()
