@@ -2,7 +2,7 @@
 
 ![alt text](https://media.giphy.com/media/3oKIPDUvDdTO5yOBHi/giphy.gif "Snake AI In Action")
 
-The AI that plays the game uses the A Star Search Algorithm to find the least cost path. I used a the Euclidian distance from the head of the snake to the food as a heurstic (which is an admissible heuristic, as this never overestimates the cost of reaching the goal) to get better results than Dijkstra's least cost path Algorithm.
+The AI that plays the game uses the A Star Search Algorithm to find the least cost path. The AI uses the Euclidian distance from the head of the snake to the food as a heurstic (an admissible heuristic, as this never overestimates the cost of reaching the goal) to get better results than Dijkstra's least cost path Algorithm.
 
 Snake Game GUI built using TkInter python module. 
 
